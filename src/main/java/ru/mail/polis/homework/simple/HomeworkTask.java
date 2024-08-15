@@ -10,7 +10,14 @@ public class HomeworkTask {
      * Считаем, что функция определена на всем пространстве от a до b
      */
     public static double calcIntegral(double a, double b, ToDoubleFunction<Double> function, double delta) {
-        return 0;
+        double leftBound = a;
+        double valueOfIntegral = 0;
+        //Используем метод прямоугольников
+        while (Double.compare(leftBound, b) < 0) {
+            valueOfIntegral += function.applyAsDouble(leftBound) * delta;
+            leftBound += delta;
+        }
+        return valueOfIntegral;
     }
 
     /**
@@ -18,7 +25,25 @@ public class HomeworkTask {
      * выводим номер первой максимальной цифры (если их несколько)
      */
     public static byte maxNumber(long a) {
-        return 0;
+        if (a < 10) {
+            return 1;
+        }
+        byte numberOfDigits = (byte) Math.log10(a); //количество цифр в числе
+        long pow10 = (long) Math.pow(10, numberOfDigits); //степень десяти для выделения очередной цифры числа
+        byte maxNumber = -1; //наибольшая цифра
+        byte maxOrder = -1; //номер максимальной цифры
+        for (byte i = 0; i <= numberOfDigits; i++) {
+            byte number = (byte) (a / pow10 % 10); //очередная цифра числа
+            if (number > maxNumber) {
+                maxNumber = number;
+                maxOrder = (byte) (i + 1);
+            }
+            if (maxNumber == 9) {
+                break;
+            }
+            pow10 /= 10;
+        }
+        return maxOrder;
     }
 
 
@@ -27,7 +52,10 @@ public class HomeworkTask {
      * которая находится на той же прямой что и первые две.
      */
     public static double lineFunction(int x1, int y1, int x2, int y2, int x3) {
-        return 0;
+        //Уравнение прямой вида: y = ax + b
+        double a = (double) (y2 - y1) / (x2 - x1);
+        double b = y1 - a * x1;
+        return a * x3 + b;
     }
 
     /**
@@ -35,7 +63,9 @@ public class HomeworkTask {
      * четырехуголька ABCD.
      */
     public static double square(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
-        return 0;
+        //Решение заключается в разбиении четырехугольника на два треугольника
+        double s1 = Math.abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)) / 2.0; //Площадь треугольника ABC
+        double s2 = Math.abs((x1 - x3) * (y4 - y3) - (x4 - x3) * (y1 - y3)) / 2.0; //Площадь треугольника ACD
+        return s1 + s2;
     }
-
 }
